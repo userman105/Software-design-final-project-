@@ -45,7 +45,6 @@ def generate_equation():
 
 
 def main():
-    # Start recording the time
     start_time = time.time()
 
     equation, real_solution = generate_equation()
