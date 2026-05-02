@@ -1,8 +1,9 @@
 import threading
 import random
 import copy
+import time
 
-class WorkerPrototype:
+class Prototype:
     def __init__(self):
         self.thread_id = None
         self.numbers = []
@@ -29,7 +30,6 @@ class WorkerPrototype:
         print(f"Thread {self.thread_id} finished")
 
 
-# Generate equation
 def generate_equation():
     a = random.randint(1, 5)
     b = random.randint(1, 10)
@@ -44,6 +44,8 @@ def generate_equation():
 
 
 def main():
+    start_time = time.time()
+
     equation, real_solution = generate_equation()
     numbers = random.sample(range(1, 200), 39)
     numbers.append(real_solution)
@@ -54,7 +56,7 @@ def main():
         "result": None,
         "lock": threading.Lock()
     }
-    prototype = WorkerPrototype()
+    prototype = Prototype()
     threads = []
     for i in range(4):
         worker = prototype.clone()
@@ -70,7 +72,11 @@ def main():
     for t in threads:
         t.join()
 
+    end_time = time.time()
+    execution_time = end_time - start_time
+
     print("\nFinal Result:", shared_state["result"])
+    print(f"Total Run Time: {execution_time:.4f} seconds")
 
 if __name__ == "__main__":
     main()

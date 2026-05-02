@@ -1,5 +1,7 @@
 import threading
 import random
+import time
+
 class Worker:
 
     def __init__(self, thread_id, numbers, equation, shared_state):
@@ -43,6 +45,9 @@ def generate_equation():
 
 
 def main():
+    # Start recording the time
+    start_time = time.time()
+
     equation, real_solution = generate_equation()
     numbers = random.sample(range(1, 200), 39)
     numbers.append(real_solution)
@@ -70,7 +75,11 @@ def main():
     for t in threads:
         t.join()
 
+    end_time = time.time()
+    execution_time = end_time - start_time
+
     print("\nFinal Result:", shared_state["result"])
+    print(f"Total Run Time: {execution_time:.4f} seconds")
 
 if __name__ == "__main__":
     main()

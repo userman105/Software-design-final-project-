@@ -1,13 +1,13 @@
 import threading
 import random
+import time
 
 class SingletonSolver:
     instance = None
     lock = threading.Lock()
 
     def __init__(self):
-        self.found = None
-        self.result = None
+        pass
 
     def __new__(cls):
         with cls.lock:
@@ -43,6 +43,7 @@ def generate_equation():
 
     print(f"Equation: {a}x + {b} = {target}")
     return equation, x_solution
+
 def worker(thread_id, numbers, equation, solver):
     print(f"Thread {thread_id} started")
 
@@ -53,7 +54,9 @@ def worker(thread_id, numbers, equation, solver):
     print(f"Thread {thread_id} finished")
 
 
-def main(): 
+def main():
+    start_time = time.time()
+
     equation, real_solution = generate_equation()
     numbers = random.sample(range(1, 200), 39)
     numbers.append(real_solution)
@@ -72,7 +75,11 @@ def main():
     for t in threads:
         t.join()
 
+    end_time = time.time()
+    execution_time = end_time - start_time
+
     print("\nFinal Result:", solver.result)
+    print(f"Total Run Time: {execution_time:.4f} seconds")
 
 if __name__ == "__main__":
     main()
